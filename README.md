@@ -19,6 +19,8 @@ The project is being developed in Streamlit for rapid prototyping, with future p
 
 ![AI-Powered Personalized Learning Infographic](A_2D_digital_infographic_illustrates_the_AI-Powere.png)
 
+![image](https://github.com/user-attachments/assets/3a3adc58-de62-4d52-8d6f-fb97c516d924)
+
 ## Features
 
 - Personalized learning paths
