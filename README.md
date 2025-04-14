@@ -1,71 +1,73 @@
-# ai-learning-personalizer
-Great call, Steven — let’s absolutely prep this in markdown format now. Even if you’re not ready to fully code it today, creating the GitHub project structure early is a solid move. It sets the intention and makes it easier to track progress as you build.
-
-Here’s the markdown version of your Portfolio Project #1 — you can copy and paste this into a new GitHub README.md file:
-
----
-
 # 📊 AI-Powered Learning Personalizer (Pilot: 8th Grade Math)
 
-> Standards-aligned, data-informed learning paths personalized for every student — powered by pre-assessments and AI.
+> A mastery-based learning engine powered by diagnostic pre-assessments, personalized skill paths, and dynamic progress monitoring — built for real student growth.
 
 ---
 
-## 🧠 Problem This Solves  
-Traditional education often relies on GPA or generic benchmarks to guide instruction. This project enables personalized learning by analyzing student performance on diagnostic assessments and generating custom learning paths aligned to specific standards (e.g., Common Core or state frameworks).
+## 🧠 What Problem This Solves  
+Students often receive grade-level instruction that doesn’t reflect what they’re truly ready to learn. This project replaces GPA-based assumptions with diagnostic pre-assessments that pinpoint each student's entry point and generate a personalized vertical learning plan aligned to key standards.
 
 ---
 
 ## 👤 Target Users  
-- Students (Middle School; initial pilot = 8th Grade Math)  
-- Teachers viewing student gaps and suggested plans  
-- (Optional) Parents receiving summary reports  
+- Students (initial pilot: 8th Grade Math)  
+- Teachers viewing student readiness, gaps, and growth  
+- (Optional) Parents receiving weekly skill updates  
 
 ---
 
 ## 📥 Inputs  
-- Student CSV containing:
-  - Unique ID / Name  
-  - Pre-assessment scores by standard or skill  
-  - Optional: historical test scores  
+- Pre-assessment scores per student, aligned to specific standards (e.g. CCSS.Math.Content.8.EE.1)  
+- Optional: past standardized test data or placement exam results  
+- Student name/ID and optional background info  
 
 ---
 
 ## 📤 Outputs  
-- Personalized Learning Plan (skill-by-skill roadmap)  
-- Visual mastery tracker  
-- Streamlit dashboard view  
-- Optional AI recommendation summary (GPT-generated learning tips or links)
+- Personalized Learning Plan based on diagnostic results  
+- Mastery tracker for each skill within the learning path  
+- Streamlit dashboard showing current level, progress, and suggested next steps  
+- Optional GPT-generated lesson prompts or visual explanations  
 
 ---
 
 ## 🛠️ Tech Stack & Tools  
 - Python (Pandas for data processing)  
 - Streamlit (app interface)  
-- Altair (charts/graphs)  
-- Optional GPT integration (Phase 2)  
-- CSV data upload & dashboard generation
+- Altair or Matplotlib (for visualization)  
+- Optional: GPT-4 for explanation generation or lesson prompts  
+- Standards reference set (e.g., Common Core)  
 
 ---
 
 ## ✅ Success Criteria  
-- Upload student dataset  
-- Automatically identify which standards are mastered, developing, or not met  
-- Output personalized learning path for each student  
-- Display dashboard showing key metrics and learning targets
+- Upload mock or real student diagnostic data  
+- System identifies vertical entry point based on gaps  
+- Personalized skill roadmap is generated  
+- Dashboard displays learning trajectory with mastery visualization  
+- Optional: exportable PDF or printable learning plan for teacher/parent  
 
 ---
 
-## 🔭 Future Add-Ons (Phase 2+)  
-- Retention Risk Scoring (AI School Coach)  
-- Parent Dashboard Output  
-- AI-generated lesson plan suggestions  
-- Project-based learning menu tied to current skills
+## 🔄 Learning Loop Model  
+1. 🧪 Diagnostic Pre-Assessment  
+2. 🎯 Personalized Skill Path (vertical + standards-aligned)  
+3. 📘 AI-supported Learning Resources (video, GPT summary, project options)  
+4. 📊 Progress Monitoring + Skill Mastery  
+5. 🔁 Reassessment + Learning Path Update  
+
+---
+
+## 🔭 Future Add-Ons  
+- Risk Score / Engagement Tracker (AI Retention Coach)  
+- Parent View with plain-language weekly reports  
+- Project-based learning menu linked to current skill level  
+- Avatar-powered instruction module (HeyGen integration)
 
 ---
 
 ## 📂 Project Status  
-🚧 In development – structure created, data pipeline next.
+🚧 In development – vertical learning path framework in progress
 
 ---
 
