@@ -1,4 +1,36 @@
+# AI-Powered Personalized Learning MVP
+
+## Description
+
+This MVP is designed to deliver a truly personalized, standards-based learning experience for K–12 students—starting with 8th-grade math. It uses AI to prescribe learning paths based on either historical data (like standardized test scores) or an optional diagnostic pre-assessment.
+
+Once a student's starting point is established, the system assigns appropriate learning modules that include:
+
+- AI-generated instructional videos using avatars
+- Interactive, standards-aligned practice activities
+- Project-based learning menus
+- Progress monitoring and mastery tracking
+
+The goal is to provide a student dashboard that adapts in real-time to performance, while also offering tools for teachers and parents to monitor and support the learning journey.
+
+The project is being developed in Streamlit for rapid prototyping, with future plans to expand into a modular system with dashboards for different users (students, teachers, parents).
+
+## Infographic
+
+![AI-Powered Personalized Learning Infographic](A_2D_digital_infographic_illustrates_the_AI-Powere.png)
+
+## Features
+
+- Personalized learning paths
+- AI-powered pre-assessment
+- Visual and project-based instruction
+- ... (Add more)
+
+...
+
 # 📊 AI-Powered Learning Personalizer (Pilot: 8th Grade Math)
+
+
 
 > A mastery-based learning engine powered by diagnostic pre-assessments, personalized skill paths, and dynamic progress monitoring — built for real student growth.
 
@@ -57,6 +89,16 @@ Students often receive grade-level instruction that doesn’t reflect what they�
 5. 🔁 Reassessment + Learning Path Update  
 
 ---
+### 🧭 Visual: Personalized Learning Loop
+
+```mermaid
+graph TD
+    A[🧪 Pre-Assessment] --> B[🎯 Identify Entry Point]
+    B --> C[🗺️ Personalized Skill Path]
+    C --> D[📘 AI Resources & Practice]
+    D --> E[📊 Progress Monitoring]
+    E --> F[🔁 Reassessment & Next Step]
+    F --> C
 
 ## 🔭 Future Add-Ons  
 - Risk Score / Engagement Tracker (AI Retention Coach)  
