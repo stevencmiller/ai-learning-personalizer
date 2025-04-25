@@ -16,7 +16,7 @@ page = st.sidebar.radio("Go to", ["📈 Overview", "📁 Upload Scores"])
 @st.cache_data
 def load_results():
     try:
-        return pd.read_csv("data/diagnostic_results.csv")
+        return pd.read_csv("Mock Student Data.csv")
     except:
         return pd.DataFrame()
 
