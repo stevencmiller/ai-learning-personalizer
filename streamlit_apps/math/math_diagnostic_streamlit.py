@@ -74,6 +74,7 @@ elif page == "📁 Upload Scores":
         st.success("Scores uploaded successfully! Switch to 'Overview' tab to view data.")
         df = load_results()
 
+results = assess_mastery_by_strand(student_scores)
 
     # Export to CSV
     csv_data = "Strand,Mastery Level\n" + "\n".join([f"{s},{l}" for s, l in results.items()])
