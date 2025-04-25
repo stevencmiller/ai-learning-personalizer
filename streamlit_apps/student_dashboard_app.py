@@ -49,5 +49,8 @@ elif page == "📁 Upload Scores":
     uploaded = st.file_uploader("Choose CSV", type="csv")
     if uploaded:
         df = pd.read_csv(uploaded)
+         # Ensure 'data' directory exists before saving
+        import os
+        os.makedirs("data", exist_ok=True)
         df.to_csv("data/diagnostic_results.csv", index=False)
         st.success("Scores uploaded successfully! Switch to 'Overview' tab to view data.")
