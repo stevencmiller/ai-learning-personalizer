@@ -54,3 +54,5 @@ elif page == "📁 Upload Scores":
         os.makedirs("data", exist_ok=True)
         df.to_csv("data/diagnostic_results.csv", index=False)
         st.success("Scores uploaded successfully! Switch to 'Overview' tab to view data.")
+         # 🔄 Reload data to reflect upload
+        df = load_results()
