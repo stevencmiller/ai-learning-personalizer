@@ -34,12 +34,25 @@ def assess_mastery_by_strand(scores_dict):
             mastery_results[strand] = "Not Yet Mastered"
     return mastery_results
 
+# Load pathway logic from JSON
+@st.cache_data
+def load_pathways():
+    try:
+        with open("curriculum/pathway_logic_math.json") as f:
+            return json.load(f)
+    except:
+        return {}
+
+pathways = load_pathways()
+
 # Compute and display results
 if st.button("Evaluate Mastery"):
     results = assess_mastery_by_strand(scores)
     st.subheader("📊 Mastery Results")
     for strand, level in results.items():
         st.markdown(f"**{strand}**: {level}")
+        suggestion = pathways.get(strand, {}).get(level, "No recommendation available.")
+        st.markdown(f"→ Suggested Path: {suggestion}")
 
     # Generate downloadable CSV string
     csv_data = "Strand,Mastery Level\n" + "\n".join([f"{s},{l}" for s, l in results.items()])
@@ -49,4 +62,3 @@ if st.button("Evaluate Mastery"):
         file_name="math_diagnostic_results.csv",
         mime="text/csv"
     )
-
