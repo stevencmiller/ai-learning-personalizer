@@ -1,0 +1,22 @@
+{
+  "Expressions & Equations": {
+    "Mastered": "📘 Enrichment: Real-World Algebra Projects",
+    "In Progress": "📗 Lesson: Solving Multi-Step Equations",
+    "Not Yet Mastered": "📕 Remediation: Order of Operations & Basic Expressions"
+  },
+  "Ratios & Proportions": {
+    "Mastered": "📘 Challenge: Scaling & Proportional Reasoning in Design",
+    "In Progress": "📗 Lesson: Solving Proportions with Cross-Multiplication",
+    "Not Yet Mastered": "📕 Remediation: Understanding Ratios with Visual Models"
+  },
+  "Geometry": {
+    "Mastered": "📘 Extension: Design a Mini-Golf Course (Angles, Area, Volume)",
+    "In Progress": "📗 Lesson: Triangle Properties and Area",
+    "Not Yet Mastered": "📕 Remediation: Classifying Shapes & Basic Measurement"
+  },
+  "Statistics": {
+    "Mastered": "📘 Project: Create a Community Survey & Analyze Results",
+    "In Progress": "📗 Lesson: Mean, Median, and Mode Activities",
+    "Not Yet Mastered": "📕 Remediation: Understanding Graph Types & Data Sets"
+  }
+}
