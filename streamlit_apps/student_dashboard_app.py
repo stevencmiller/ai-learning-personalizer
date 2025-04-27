@@ -1,62 +1,56 @@
 import streamlit as st
 import pandas as pd
 import altair as alt
-import os
 
-st.set_page_config(page_title="Student Dashboard | True North", layout="wide")
+# Set page config
+st.set_page_config(page_title="True North Dashboard", layout="wide")
 
-st.title("📊 True North Personalized Student Dashboard")
+# Sample DataFrame (For example purposes, you can load real data from CSV or database)
+# Example: Student diagnostic data (Mocked here)
+data = {
+    'Student': ['John Doe', 'Jane Smith', 'Sam Brown'],
+    'Math': ['Mastered', 'In Progress', 'Not Yet Mastered'],
+    'Literacy': ['In Progress', 'Mastered', 'Mastered'],
+    'Science': ['Mastered', 'Mastered', 'In Progress']
+}
+df = pd.DataFrame(data)
 
-# Sidebar navigation
-st.sidebar.header("Navigation")
-page = st.sidebar.radio("Go to", ["📈 Overview", "📁 Upload Scores"])
+# Sidebar Role Selection
+role = st.sidebar.selectbox("Select your role", ["Student", "Parent", "Educator/Investor"])
 
-# Load diagnostic results
-@st.cache_data
-def load_results():
-    try:
-        return pd.read_csv("data/diagnostic_results.csv")  # Ensure it loads from 'data' folder
-    except:
-        return pd.DataFrame()
+# Header Title
+st.title(f"📊 True North Dashboard - {role} View")
 
-df = load_results()
+# --- Content for Student ---
+if role == "Student":
+    st.subheader("🎯 Your Learning Progress")
+    student_name = st.selectbox("Select your name", df['Student'].tolist())
+    student_data = df[df['Student'] == student_name]
+    
+    # Display student’s learning progress
+    st.write(f"Progress for {student_name}:")
+    st.dataframe(student_data)
 
-# Overview Page
-if page == "📈 Overview":
-    st.subheader("🎯 Diagnostic Mastery Overview")
+    # Visualize progress with a bar chart
+    chart = alt.Chart(student_data.melt(id_vars='Student')).mark_bar().encode(
+        x='variable:N',
+        y='value:N',
+        color='variable'
+    ).properties(width=600)
+    st.altair_chart(chart, use_container_width=True)
 
-    if df.empty:
-        st.warning("No diagnostic data found. Please upload scores to get started.")
-    else:
-        st.dataframe(df)
+# --- Content for Parent ---
+elif role == "Parent":
+    st.subheader("🎯 Child's Learning Progress")
+    student_name = st.selectbox("Select your child’s name", df['Student'].tolist())
+    student_data = df[df['Student'] == student_name]
+    
+    # Display child’s learning progress
+    st.write(f"Progress for {student_name}:")
+    st.dataframe(student_data)
 
-        # Count levels
-        mastery_counts = df["Mastery Level"].value_counts().reset_index()
-        mastery_counts.columns = ["Level", "Count"]
+    # Add recommendations for parents to support learning
+    st.write("🔔 Recommendations:")
+    st.write(f"
 
-        chart = alt.Chart(mastery_counts).mark_bar().encode(
-            x=alt.X("Level", sort=["Mastered", "In Progress", "Not Yet Mastered"]),
-            y="Count",
-            color="Level"
-        ).properties(width=600)
-
-        st.altair_chart(chart, use_container_width=True)
-
-# Upload Page
-elif page == "📁 Upload Scores":
-    st.subheader("📤 Upload Diagnostic CSV File")
-    uploaded = st.file_uploader("Choose CSV", type="csv")
-    if uploaded:
-        # Load the uploaded CSV
-        df = pd.read_csv(uploaded)
-
-        # Ensure 'data' directory exists before saving
-        os.makedirs("data", exist_ok=True)
-
-        # Save to the 'data' directory
-        df.to_csv("data/diagnostic_results.csv", index=False)
-        st.success("Scores uploaded successfully! Switch to 'Overview' tab to view data.")
-        
-        # Reload data to reflect upload
-        df = load_results()  # This makes sure the Overview page will load the latest data
 
