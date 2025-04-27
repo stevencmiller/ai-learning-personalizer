@@ -70,15 +70,25 @@ elif role == "Educator/Investor":
 
     # Aggregate performance chart (overall class trends)
     class_mastery = df.drop(columns='Student').apply(pd.Series.value_counts).T
+    class_mastery.reset_index(inplace=True)
+    class_mastery.columns = ['Mastery Level', 'Math', 'Literacy', 'Science']  # Rename columns to make sense
+
     st.write("Class Mastery Overview:")
     st.dataframe(class_mastery)
 
-    chart = alt.Chart(class_mastery.reset_index()).mark_bar().encode(
-        x='index:N',
-        y='Math',
-        color='index'
-    ).properties(width=600)
+    # Now, we visualize using the correct long-form format
+    class_mastery_long = class_mastery.melt(id_vars='Mastery Level', value_vars=['Math', 'Literacy', 'Science'],
+                                            var_name='Subject', value_name='Count')
+
+    chart = alt.Chart(class_mastery_long).mark_bar().encode(
+        x='Mastery Level:N',
+        y='Count:Q',
+        color='Mastery Level:N',
+        column='Subject:N'  # This will create a separate column for each subject
+    ).properties(width=200, height=300)
+
     st.altair_chart(chart, use_container_width=True)
+
 
 
 
