@@ -1,5 +1,3 @@
-# 🎓 Streamlit App: True North Student Dashboard (Upgraded with Pathways)
-
 import streamlit as st
 import pandas as pd
 import altair as alt
@@ -17,26 +15,9 @@ page = st.sidebar.radio("Go to", ["📈 Overview", "📁 Upload Scores"])
 @st.cache_data
 def load_results():
     try:
-        df = pd.read_csv("Mock Student Data.csv")
-        
-        # Add Personalized Pathways
-        if "Recommended Pathway" not in df.columns:
-            df["Recommended Pathway"] = df["Mastery Level"].apply(recommend_pathway)
-        
-        return df
+        return pd.read_csv("data/diagnostic_results.csv")  # Ensure it loads from 'data' folder
     except:
         return pd.DataFrame()
-
-# Pathway recommendation logic
-def recommend_pathway(mastery_level):
-    if mastery_level == "Mastered":
-        return "🚀 Enrichment Pathway: Deeper Projects"
-    elif mastery_level == "In Progress":
-        return "🔧 Targeted Skills Pathway: Focus Practice"
-    elif mastery_level == "Not Yet Mastered":
-        return "🏗️ Intervention Pathway: Foundational Skills"
-    else:
-        return "🔍 Review Needed"
 
 df = load_results()
 
@@ -66,11 +47,16 @@ elif page == "📁 Upload Scores":
     st.subheader("📤 Upload Diagnostic CSV File")
     uploaded = st.file_uploader("Choose CSV", type="csv")
     if uploaded:
+        # Load the uploaded CSV
         df = pd.read_csv(uploaded)
-        
-        # Add Personalized Pathways after upload
-        df["Recommended Pathway"] = df["Mastery Level"].apply(recommend_pathway)
-        
+
+        # Ensure 'data' directory exists before saving
         os.makedirs("data", exist_ok=True)
+
+        # Save to the 'data' directory
         df.to_csv("data/diagnostic_results.csv", index=False)
         st.success("Scores uploaded successfully! Switch to 'Overview' tab to view data.")
+        
+        # Reload data to reflect upload
+        df = load_results()  # This makes sure the Overview page will load the latest data
+
