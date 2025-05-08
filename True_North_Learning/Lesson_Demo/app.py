@@ -1,3 +1,7 @@
+import streamlit as st
+import pandas as pd
+import os
+
 st.title("📘 Personalized Learning Lesson")
 
 uploaded_file = st.file_uploader("📂 Upload your lesson CSV", type=["csv"])
