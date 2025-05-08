@@ -10,7 +10,7 @@ if uploaded_file is not None:
    df = pd.read_csv(uploaded_file, encoding='latin1')
 
 
-       for _, row in df.iterrows():
+   for _, row in df.iterrows():
         content_type = row['type'].strip().lower()
         title = row['title']
         content = row['content']
