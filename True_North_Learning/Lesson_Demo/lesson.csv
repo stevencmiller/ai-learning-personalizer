@@ -1,0 +1,7 @@
+type,title,content
+text,Welcome,"""Today, we'll learn how to interpret a fraction as division (4.NF.3b)."""
+video-script,Teacher Avatar,"""Hi! I'm your guide today. Did you know that 3 ÷ 4 is the same as 3/4? Let's see why!"""
+whiteboard,Visual Example,"""Imagine 3 pizzas shared among 4 kids. Each gets 3/4 of a pizza."""
+interaction,Try It,"""How would you write 5 divided by 2 as a fraction?"""
+quiz,Quick Check,"""What's another way to write 7 ÷ 4?"""
+closing,Great Work,"""You’ve just learned how fractions and division are connected!"""
