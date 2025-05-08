@@ -7,7 +7,8 @@ st.title("📘 Personalized Learning Lesson")
 uploaded_file = st.file_uploader("📂 Upload your lesson CSV", type=["csv"])
 
 if uploaded_file is not None:
-    df = pd.read_csv(uploaded_file)
+   df = pd.read_csv(uploaded_file, encoding='latin1')
+
 
     for _, row in df.iterrows():
         content_type = row['type'].strip().lower()
