@@ -1,51 +1,43 @@
-import streamlit as st
-import pandas as pd
+st.title("📘 Personalized Learning Lesson")
 
-st.set_page_config(page_title="True North Lesson", layout="centered")
-st.title("True North Math Lesson")
-st.subheader("Grade 4 – Interpreting a Fraction as Division (4.NF.3b)")
+uploaded_file = st.file_uploader("📂 Upload your lesson CSV", type=["csv"])
 
-lesson_file = st.file_uploader("Upload your lesson CSV", type="csv")
-
-if lesson_file:
-    df = pd.read_csv(lesson_file)
+if uploaded_file is not None:
+    df = pd.read_csv(uploaded_file)
 
     for _, row in df.iterrows():
-        section_type = row['type'].lower()
+        content_type = row['type'].strip().lower()
         title = row['title']
         content = row['content']
 
-        st.markdown(f"### {title}")
-
-        if section_type == "text":
+        if content_type == 'text':
+            st.subheader(title)
             st.write(content)
 
-        elif section_type == "video-script":
-            st.image("assets/avatar_placeholder.png", caption="Digital Avatar Teaching Moment")
-            st.info(f"**Avatar Says:** {content}")
-            with st.expander("What are you thinking so far?"):
-                st.text_area("Reflect here...")
+        elif content_type == 'video-script':
+            st.subheader(title)
+            st.image("https://via.placeholder.com/150", width=150, caption="Instructor Avatar")
+            st.info(content)
 
-        elif section_type == "whiteboard":
-            st.write(content)
-            st.image("https://upload.wikimedia.org/wikipedia/commons/4/42/Pizza_with_slices.png", caption="Visual Example")
+        elif content_type == 'whiteboard':
+            st.subheader(title)
+            st.write("📽️ Whiteboard Sketch (description):")
+            st.code(content)
 
-        elif section_type == "interaction":
-            user_input = st.text_input("Your answer:")
+        elif content_type == 'quiz':
+            st.subheader(title)
+            answer = st.radio(content, ['A', 'B', 'C', 'D'])
+            if st.button("Check Answer"):
+                st.success("✅ Great job!" if answer == "A" else "❌ Try again!")
+
+        elif content_type == 'interaction':
+            st.subheader(title)
+            user_input = st.text_input(content)
             if user_input:
-                st.success("Great thinking! Let's reflect on that together.")
+                st.write("💬 Thanks for sharing!")
 
-        elif section_type == "quiz":
-            answer = st.radio("Choose your answer:", ["a) 1 3/4", "b) 7/4", "c) 4/7", "d) 2"])
-            if answer:
-                if answer == "b) 7/4":
-                    st.success("Correct!")
-                else:
-                    st.error("Try again. Hint: a ÷ b = a/b")
-
-        elif section_type == "closing":
+        elif content_type == 'closing':
+            st.subheader(title)
             st.success(content)
-            st.text_input("What did you enjoy or learn today?")
-            st.selectbox("How confident do you feel now?", ["Very", "Somewhat", "Not Yet"])
 else:
-    st.info("Please upload a lesson CSV to begin.")
+    st.warning("👈 Please upload a lesson CSV file to begin.")
