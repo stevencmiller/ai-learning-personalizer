@@ -2,6 +2,34 @@ import streamlit as st
 import pandas as pd
 import os
 
+# Paste this into app.py
+def display_lesson(lesson):
+    
+    st.markdown(f"## {lesson.get('title', 'Untitled Lesson')}")
+    st.markdown(f"**Objective:** {lesson.get('objective', '')}")
+    st.markdown("---")
+    if 'warm_up' in lesson:
+        st.subheader("Warm-Up")
+        st.markdown(lesson['warm_up'])
+    if 'instruction' in lesson:
+        st.subheader("Direct Instruction")
+        st.markdown(lesson['instruction'])
+    if 'examples' in lesson:
+        st.subheader("Examples")
+        st.markdown(lesson['examples'])
+    if 'student_practice' in lesson:
+        st.subheader("Student Practice")
+        st.markdown(lesson['student_practice'])
+    if 'assessment' in lesson:
+        st.subheader("Assessment")
+        st.markdown(lesson['assessment'])
+    if 'reflection' in lesson:
+        st.subheader("Reflection")
+        st.markdown(lesson['reflection'])
+    st.markdown("---")
+    st.success("Lesson Complete! Great job thinking deeply and working hard.")
+
+
 st.title("📘 Personalized Learning Lesson")
 
 uploaded_file = st.file_uploader("📂 Upload your lesson CSV", type=["csv"])
