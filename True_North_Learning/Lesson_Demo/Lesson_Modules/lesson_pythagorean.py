@@ -1,55 +1,37 @@
-# lesson_pythagorean.py
-
 import streamlit as st
+from datetime import datetime
 
-def pythagorean_theorem_lesson():
-    st.title("🔺 Unlocking Right Triangles: The Power of the Pythagorean Theorem")
-    st.subheader("8th Grade Geometry • Prove and Apply the Pythagorean Theorem")
+def run_pythagorean_lesson():
+    st.title("🏗️ Prove and Apply the Pythagorean Theorem")
+    st.write("Welcome! Let’s explore how the Pythagorean Theorem helps us solve problems involving right triangles.")
 
-    st.markdown("""
-    ### ✅ Lesson Objectives
-    - Understand what the Pythagorean Theorem is and when to use it.
-    - Prove how and why it works using a visual example.
-    - Solve real-world and mathematical problems involving right triangles.
-    
-    ### 🟡 Real-Life Hook
-    Imagine this: You’re building a ramp for your dog to get into the back of your truck. You know how high the truck is from the ground and how long the ramp is. But how far away should the ramp start?
+    st.subheader("🔍 Discover")
+    st.latex(r"a^2 + b^2 = c^2")
+    st.markdown("This formula applies to **right triangles**. The two shorter sides are *a* and *b*, and the longest side (the hypotenuse) is *c*.")
 
-    That’s where today’s secret weapon — the **Pythagorean Theorem** — comes in!
+    st.subheader("🧠 Think")
+    st.markdown("**Try this problem:** A right triangle has legs of length 3 and 4. What is the length of the hypotenuse?")
 
-    ### 🔵 Mini-Lesson: What Is the Pythagorean Theorem?
-    In a **right triangle**, the square of the **hypotenuse** (the longest side) is equal to the sum of the squares of the other two sides.
+    user_answer = st.number_input("Your answer for c (the hypotenuse):", min_value=0.0, step=0.1, format="%.1f")
 
-    **Formula**: `a² + b² = c²`
+    submitted = st.button("Check Answer")
 
-    Example:
-    - a = 3, b = 4
-    - `3² + 4² = 9 + 16 = 25 → c = 5`
+    if submitted:
+        correct_answer = 5.0
+        if abs(user_answer - correct_answer) < 0.1:
+            st.success("✅ Great job! That’s correct.")
+            score = 100
+        else:
+            st.error(f"❌ Not quite. The correct answer is {correct_answer}.")
+            score = 0
 
-    ### 🔺 Prove It!
-    Use graph paper or digital drawings to compare the areas of squares off each triangle side. You’ll find the big square (on the hypotenuse) always equals the two smaller ones combined.
-
-    ### 🟢 Guided Practice
-    **Problem**: A ladder is 10 ft long and sits 6 ft from a wall. How high does it reach?
-
-    - `6² + b² = 10²`
-    - `36 + b² = 100 → b² = 64 → b = 8 ft`
-
-    ✅ The ladder reaches **8 feet** up the wall.
-
-    ### 🔴 Independent Practice
-    1. a = 5, b = 12, c = ?
-    2. a = 9, c = 15, b = ?
-    3. a = 8, b = 15, c = ?
-
-    ### ⚡️ Challenge Problem
-    A drone flies 30 meters north, then 40 meters east. How far is it from the starting point?
-
-    ### 🤖 Ask the AI
-    - “Can you walk me step-by-step through a problem using my own numbers?”
-    - “Create a real-world problem using sports or construction.”
-
-    ### 🎯 Exit Reflection
-    - What clicked for you today?
-    - What do you want to review again tomorrow?
-    """)
+        # Return results for logging
+        return {
+            "lesson_name": "Pythagorean Theorem",
+            "standard_id": "8.G.B.6",
+            "score": score,
+            "time_spent": None,  # Optional
+            "completion_status": "completed",
+            "timestamp": datetime.now()
+        }
+    return None
