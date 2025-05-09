@@ -74,3 +74,21 @@ if uploaded_file is not None:
             st.success(content)
 else:
     st.warning("👈 Please upload a lesson CSV file to begin.")
+
+# Sample lesson to test the display
+sample_lesson = {
+    "title": "Understanding Fractions as Parts of a Whole",
+    "objective": "Students will recognize and model fractions using shapes and real-world examples.",
+    "warm_up": "Draw a circle and divide it into 4 equal parts. Shade one part. What fraction is shaded?",
+    "instruction": "Fractions represent parts of a whole. A numerator is the top number...",
+    "examples": "- 1/2 of a pizza means one of two equal slices.\n- 3/4 of a chocolate bar...",
+    "student_practice": "1. Color 2/3 of a triangle\n2. Solve: What fraction is left if you eat 3/8 of a cake?",
+    "assessment": "Q1: What does the numerator represent?\nQ2: Draw and label 2/5 of a rectangle.",
+    "reflection": "What was easy or hard about working with fractions today?"
+}
+
+# Call the function
+display_lesson(sample_lesson)
+
+if st.button("Show Sample Lesson"):
+    display_lesson(sample_lesson)
