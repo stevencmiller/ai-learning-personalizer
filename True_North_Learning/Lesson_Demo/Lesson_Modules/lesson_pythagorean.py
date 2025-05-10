@@ -1,10 +1,7 @@
 import streamlit as st
 from datetime import datetime
 
-from utils.progress import log_progress
-
-def run_pythagorean_lesson():
-    st.title("🏗️ Prove and Apply the Pythagorean Theorem")
+def render_pythagorean_lesson(student_name: str = ""):
     st.write("Welcome! Let’s explore how the Pythagorean Theorem helps us solve problems involving right triangles.")
 
     st.subheader("🔍 Discover")
@@ -15,7 +12,6 @@ def run_pythagorean_lesson():
     st.markdown("**Try this problem:** A right triangle has legs of length 3 and 4. What is the length of the hypotenuse?")
 
     user_answer = st.number_input("Your answer for c (the hypotenuse):", min_value=0.0, step=0.1, format="%.1f")
-
     submitted = st.button("Check Answer")
 
     if submitted:
@@ -27,24 +23,17 @@ def run_pythagorean_lesson():
             st.error(f"❌ Not quite. The correct answer is {correct_answer}.")
             score = 0
 
-        # Return results for logging
+        st.subheader("📊 Lesson Summary")
+        st.markdown(f"**Score:** {score}/100")
+
         return {
+            "student_name": student_name,
             "lesson_name": "Pythagorean Theorem",
             "standard_id": "8.G.B.6",
             "score": score,
-            "time_spent": None,  # Optional
             "completion_status": "completed",
             "timestamp": datetime.now()
         }
     return None
 
-st.subheader("Lesson Summary")
-
-student_name = st.text_input("Enter your name to track progress:")
-
-if student_name:
-    if st.button("Save My Progress"):
-        score = 95  # Replace with actual logic or score variable
-        log_progress(student_name, "Pythagorean Theorem", score)
-        st.success("✅ Your progress has been logged!")
 
