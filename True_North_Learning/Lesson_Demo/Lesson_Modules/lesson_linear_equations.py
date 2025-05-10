@@ -1,6 +1,8 @@
 import streamlit as st
 from datetime import datetime
 
+from utils.progress import log_progress
+
 def run_linear_equations_lesson():
     st.title("📈 Understanding Linear Equations and Functions")
     st.write("Let’s learn how linear equations can help us model real-world problems!")
