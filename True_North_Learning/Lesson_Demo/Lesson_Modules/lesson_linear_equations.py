@@ -1,9 +1,7 @@
 import streamlit as st
 from datetime import datetime
 
-from utils.progress import log_progress
-
-def run_linear_equations_lesson():
+def render_linear_equations_lesson(student_name: str = ""):
     st.title("📈 Understanding Linear Equations and Functions")
     st.write("Let’s learn how linear equations can help us model real-world problems!")
 
@@ -16,7 +14,6 @@ def run_linear_equations_lesson():
     st.markdown("**Try this:** What is the slope of the line given by the equation y = 2x + 3?")
 
     user_answer = st.number_input("Your answer for slope (m):", step=0.1)
-
     submitted = st.button("Check Answer")
 
     if submitted:
@@ -28,23 +25,17 @@ def run_linear_equations_lesson():
             st.error("❌ Not quite. The correct slope is 2.")
             score = 0
 
+        st.subheader("📊 Lesson Summary")
+        st.markdown(f"**Score:** {score}/100")
+
         return {
+            "student_name": student_name,
             "lesson_name": "Linear Equations and Functions",
             "standard_id": "8.F.B.4",
             "score": score,
-            "time_spent": None,
             "completion_status": "completed",
             "timestamp": datetime.now()
         }
     return None
 
-st.subheader("Lesson Summary")
-
-student_name = st.text_input("Enter your name to track progress:")
-
-if student_name:
-    if st.button("Save My Progress"):
-        score = 95  # Replace with actual logic or score variable
-        log_progress(student_name, "Pythagorean Theorem", score)
-        st.success("✅ Your progress has been logged!")
 
