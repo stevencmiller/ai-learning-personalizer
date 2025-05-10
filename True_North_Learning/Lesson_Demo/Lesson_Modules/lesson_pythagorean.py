@@ -1,6 +1,8 @@
 import streamlit as st
 from datetime import datetime
 
+from utils.progress import log_progress
+
 def run_pythagorean_lesson():
     st.title("🏗️ Prove and Apply the Pythagorean Theorem")
     st.write("Welcome! Let’s explore how the Pythagorean Theorem helps us solve problems involving right triangles.")
