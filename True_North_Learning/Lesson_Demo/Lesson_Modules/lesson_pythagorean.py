@@ -37,3 +37,14 @@ def run_pythagorean_lesson():
             "timestamp": datetime.now()
         }
     return None
+
+st.subheader("Lesson Summary")
+
+student_name = st.text_input("Enter your name to track progress:")
+
+if student_name:
+    if st.button("Save My Progress"):
+        score = 95  # Replace with actual logic or score variable
+        log_progress(student_name, "Pythagorean Theorem", score)
+        st.success("✅ Your progress has been logged!")
+
