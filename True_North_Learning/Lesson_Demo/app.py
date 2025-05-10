@@ -1,46 +1,35 @@
 import streamlit as st
-
-# Set page configuration
-st.set_page_config(
-    page_title="AI-Powered Learning Platform",
-    layout="centered",
-    initial_sidebar_state="auto"
-)
-
-# Custom utility to log student progress
 from utils.progress import log_progress
-
-# Lesson imports (only import what you need for now)
-from lessons.pythagorean_theorem import render_pythagorean_lesson
+from lessons.pythagorean_theorem import run_pythagorean_lesson
 from lessons.linear_equations import render_linear_equations_lesson
 
-# Sidebar for lesson selection
-st.sidebar.title("📚 Select a Lesson")
-lesson = st.sidebar.radio(
-    "Choose a lesson:",
-    ("Pythagorean Theorem", "Linear Equations and Functions")
-)
+st.set_page_config(page_title="AI-Powered Math Coach", layout="centered")
 
-# Placeholder for student ID or name
-student_name = st.sidebar.text_input("Enter student name to track progress:")
+st.title("🎯 AI-Powered Personalized Learning")
+st.markdown("Welcome to your learning dashboard! Choose a lesson to begin:")
 
-# Main content area
-if lesson == "Pythagorean Theorem":
-    st.title("📐 Proving and Applying the Pythagorean Theorem")
-    render_pythagorean_lesson(student_name)
-    if student_name:
-        log_progress(student_name, "Pythagorean Theorem", "Lesson Started")
+# Student name input (shared across lessons)
+student_name = st.text_input("Enter your name to track progress:")
 
-elif lesson == "Linear Equations and Functions":
-    st.title("📊 Linear Equations and Functions")
-    render_linear_equations_lesson(student_name)
-    if student_name:
-        log_progress(student_name, "Linear Equations", "Lesson Started")
+# Lesson selection
+lesson_options = {
+    "Prove and Apply the Pythagorean Theorem": run_pythagorean_lesson,
+    "Linear Equations and Functions": render_linear_equations_lesson
+}
 
-# Future expansion:
-# - Add avatar engagement
-# - Whiteboard tools
-# - Mastery dashboards
-# - Parent/Admin view
+lesson_choice = st.selectbox("Select a lesson:", list(lesson_options.keys()))
 
+if student_name:
+    lesson_function = lesson_options[lesson_choice]
+    result = lesson_function(student_name=student_name)
 
+    if result:
+        # Centralized logging call
+        log_progress(
+            student_name=result["student_name"],
+            lesson_name=result["lesson_name"],
+            score=result["score"]
+        )
+        st.success("✅ Your progress has been logged!")
+else:
+    st.warning("👤 Please enter your name to begin.")
