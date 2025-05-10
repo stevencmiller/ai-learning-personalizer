@@ -1,7 +1,15 @@
 import streamlit as st
-from datetime import datetime
 import pandas as pd
 import os
+import json
+from datetime import datetime
+
+log_progress(
+    student_name=st.session_state.get("student_name", "anonymous"),
+    lesson_title="Pythagorean Theorem",
+    concept="Apply the Pythagorean Theorem",
+    status="Completed"
+)
 
 from lessons.pythagorean import run_pythagorean_lesson
 from lessons.linear_equations import run_linear_equations_lesson
