@@ -10,7 +10,7 @@ from datetime import datetime
 
 # ✅ Add parent directory to system path so utils can be imported
 
-from Utils.progress import log_progress
+from utils.progress import log_progress
 from lessons.pythagorean import run_pythagorean_lesson
 from lessons.linear_equations import run_linear_equations_lesson
 
