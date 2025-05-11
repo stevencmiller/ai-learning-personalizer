@@ -1,41 +1,40 @@
 import sys
 import os
+import streamlit as st
+from datetime import datetime
 
-# Add the parent directory of the current file to sys.path
+# ✅ Add parent directory to system path so utils can be imported
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-import streamlit as st
 from utils.progress import log_progress
-from lessons.pythagorean_theorem import run_pythagorean_lesson
-from lessons.linear_equations import render_linear_equations_lesson
+from lessons.pythagorean import run_pythagorean_lesson
+from lessons.linear_equations import run_linear_equations_lesson
 
-st.set_page_config(page_title="AI-Powered Math Coach", layout="centered")
+st.set_page_config(page_title="True North Learning", page_icon="🧭")
 
-st.title("🎯 AI-Powered Personalized Learning")
-st.markdown("Welcome to your learning dashboard! Choose a lesson to begin:")
+st.title("🧭 True North Learning")
+st.write("Welcome to your personalized learning journey!")
 
-# Student name input (shared across lessons)
-student_name = st.text_input("Enter your name to track progress:")
+student_name = st.text_input("Enter your name:")
 
-# Lesson selection
-lesson_options = {
-    "Prove and Apply the Pythagorean Theorem": run_pythagorean_lesson,
-    "Linear Equations and Functions": render_linear_equations_lesson
-}
+lesson = st.selectbox("Choose a lesson:", [
+    "Prove and Apply the Pythagorean Theorem",
+    "Understanding Linear Equations and Functions"
+])
 
-lesson_choice = st.selectbox("Select a lesson:", list(lesson_options.keys()))
+lesson_result = None
 
-if student_name:
-    lesson_function = lesson_options[lesson_choice]
-    result = lesson_function(student_name=student_name)
+if lesson == "Prove and Apply the Pythagorean Theorem":
+    lesson_result = run_pythagorean_lesson()
+elif lesson == "Understanding Linear Equations and Functions":
+    lesson_result = run_linear_equations_lesson()
 
-    if result:
-        # Centralized logging call
+if lesson_result and student_name:
+    if st.button("📥 Save Progress"):
         log_progress(
-            student_name=result["student_name"],
-            lesson_name=result["lesson_name"],
-            score=result["score"]
+            student_name,
+            lesson_result["lesson_name"],
+            lesson_result["score"]
         )
-        st.success("✅ Your progress has been logged!")
-else:
-    st.warning("👤 Please enter your name to begin.")
+        st.success("✅ Progress saved successfully!")
+
