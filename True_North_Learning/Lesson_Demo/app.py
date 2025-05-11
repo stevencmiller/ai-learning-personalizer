@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+
 import streamlit as st
 from utils.progress import log_progress
 from lessons.pythagorean_theorem import run_pythagorean_lesson
