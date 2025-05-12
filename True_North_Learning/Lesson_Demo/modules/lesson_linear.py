@@ -1,7 +1,8 @@
 import streamlit as st
 from datetime import datetime
 
-def render_linear_equations_lesson(student_name: str = ""):
+def run_lesson(student_name: str = ""):
+    # keep the same content
     st.title("📈 Understanding Linear Equations and Functions")
     st.write("Let’s learn how linear equations can help us model real-world problems!")
 
