@@ -9,7 +9,7 @@ modules_dir = os.path.join(current_dir, 'modules')
 sys.path.insert(0, modules_dir)
 
 # Now imports will work
-from progress import log_progress
+from modules.progress import log_progress
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.abspath(os.path.join(current_dir))
