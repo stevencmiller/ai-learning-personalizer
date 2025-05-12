@@ -1,9 +1,9 @@
 import streamlit as st
 from datetime import datetime
 
-def render_pythagorean_lesson(student_name: str = ""):
+def run_lesson(student_name: str = ""):
+    # keep the same content
     st.write("Welcome! Let’s explore how the Pythagorean Theorem helps us solve problems involving right triangles.")
-
     st.subheader("🔍 Discover")
     st.latex(r"a^2 + b^2 = c^2")
     st.markdown("This formula applies to **right triangles**. The two shorter sides are *a* and *b*, and the longest side (the hypotenuse) is *c*.")
