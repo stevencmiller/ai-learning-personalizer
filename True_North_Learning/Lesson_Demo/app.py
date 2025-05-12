@@ -23,9 +23,9 @@ from datetime import datetime
 
 # ✅ Add parent directory to system path so utils can be imported
 
-from utils.progress import log_progress
-from lessons.pythagorean import run_pythagorean_lesson
-from lessons.linear_equations import run_linear_equations_lesson
+from modules.progress import log_progress
+from modules.lesson_linear import run_lesson as run_linear_lesson
+from modules.lesson_pythagorean import run_lesson as run_pythagorean_lesson
 
 st.set_page_config(page_title="True North Learning", page_icon="🧭")
 
