@@ -1,6 +1,13 @@
 import sys
 import os
 
+# Get parent of the assets directory
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, parent_dir)
+
+# Now import your module
+from utils.progress import log_progress
+
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.abspath(os.path.join(current_dir))
 sys.path.append(parent_dir)
