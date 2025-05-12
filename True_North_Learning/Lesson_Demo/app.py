@@ -1,12 +1,15 @@
-import sys
 import os
+import sys
 
-# Get parent of the assets directory
-parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.insert(0, parent_dir)
+# Get the current directory (Lesson_Demo/)
+current_dir = os.path.dirname(os.path.abspath(__file__))
 
-# Now import your module
-from utils.progress import log_progress
+# Add the 'modules' subfolder to the system path
+modules_dir = os.path.join(current_dir, 'modules')
+sys.path.insert(0, modules_dir)
+
+# Now imports will work
+from progress import log_progress
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.abspath(os.path.join(current_dir))
