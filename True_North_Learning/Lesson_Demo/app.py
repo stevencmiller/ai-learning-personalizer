@@ -34,7 +34,7 @@ if lesson == "Prove and Apply the Pythagorean Theorem":
     if result:
         st.session_state.lesson_result = result
 elif lesson == "Understanding Linear Equations and Functions":
-    result = run_linear_equations_lesson()
+    result = run_linear_lesson(student_name)
     if result:
         st.session_state.lesson_result = result
 
