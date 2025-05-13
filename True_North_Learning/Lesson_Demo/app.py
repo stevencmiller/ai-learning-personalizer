@@ -30,12 +30,18 @@ lesson = st.selectbox("Choose a lesson:", [
 # Lesson execution
 lesson_result = None
 if lesson == "Prove and Apply the Pythagorean Theorem":
-    lesson_result = run_pythagorean_lesson()
+    result = run_pythagorean_lesson()
+    if result:
+        st.session_state.lesson_result = result
 elif lesson == "Understanding Linear Equations and Functions":
-    lesson_result = run_linear_lesson()
+    result = run_linear_equations_lesson()
+    if result:
+        st.session_state.lesson_result = result
 
 # Save progress
-if lesson_result and student_name:
+if "lesson_result" in st.session_state and student_name:
+    lesson_result = st.session_state.lesson_result
+
     if st.button("📥 Save Progress"):
         log_progress(
             student_name,
