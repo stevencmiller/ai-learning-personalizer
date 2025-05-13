@@ -44,4 +44,14 @@ if lesson_result and student_name:
         )
         st.success("✅ Progress saved successfully!")
 
+ # ✅ DEVELOPMENT TOOL: Show saved log for this student
+        log_file = os.path.join("student_logs", f"{student_name.replace(' ', '_')}_progress.json")
+        if os.path.exists(log_file):
+            if st.checkbox("📂 View My Saved Progress (dev tool)"):
+                with open(log_file, "r") as f:
+                    progress_data = json.load(f)
+                st.json(progress_data)
+        else:
+            st.info("No saved progress found yet.")
+
 
