@@ -3,6 +3,9 @@ import sys
 import streamlit as st
 from datetime import datetime
 import json
+from student_dashboard import show_student_dashboard
+from parent_dashboard import show_parent_dashboard
+
 
 # Ensure module path includes the current subfolder (Lesson_Demo/modules)
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -23,8 +26,39 @@ st.write("Welcome to your personalized learning journey!")
 # User input
 student_name = st.text_input("Enter your name:")
 
-# Navigation between pages
-page = st.sidebar.radio("📚 Navigate", ["Lesson", "View Saved Progress", "Dashboard"])
+# Navigation
+page = st.sidebar.radio("📌 Navigate to:", [
+    "Student Dashboard",
+    "Parent Dashboard",
+    "Lessons",
+    "AI Insights",
+    "Upload Data"
+])
+
+# Student name (needed on both dashboard and lesson pages)
+student_name = st.sidebar.text_input("👤 Enter your name:")
+
+# Routing logic
+if page == "Student Dashboard" and student_name:
+    show_student_dashboard(student_name)
+
+elif page == "Parent Dashboard":
+    show_parent_dashboard()
+
+elif page == "Lessons" and student_name:
+    # Lesson logic you already have
+    st.title("📘 Lessons")
+    # [Insert your lesson selector + runner here]
+
+elif page == "AI Insights":
+    st.info("🔬 AI Insights coming soon!")
+
+elif page == "Upload Data":
+    st.info("📤 Upload data feature coming soon.")
+
+else:
+    st.warning("👈 Please select a name and page to begin.")
+
 
 # Page 1: Lesson
 if page == "Lesson":
