@@ -12,6 +12,7 @@ sys.path.insert(0, modules_dir)
 from modules.progress import log_progress
 from modules.lesson_linear import run_lesson as run_linear_lesson
 from modules.lesson_pythagorean import run_lesson as run_pythagorean_lesson
+from dashboard import show_dashboard
 
 # Streamlit page setup
 st.set_page_config(page_title="True North Learning", page_icon="🧭")
