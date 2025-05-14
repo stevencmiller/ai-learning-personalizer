@@ -19,7 +19,6 @@ from modules.parent_dashboard import show_parent_dashboard
 # Streamlit page setup
 st.set_page_config(page_title="True North Learning", page_icon="🧭")
 st.markdown("# 🧭 True North Learning\nWelcome to your personalized learning journey!")
-st.write("Welcome to your personalized learning journey!")
 
 # User Role & Page Selection
 role = st.sidebar.selectbox("Who is using the app?", ["Student", "Parent"])
@@ -30,20 +29,20 @@ if role == "Student":
     student_name = st.sidebar.text_input("👤 Enter your name:")
 
     if page == "Lessons":
-       lesson_options = [
-    "Prove and Apply the Pythagorean Theorem",
-    "Understanding Linear Equations and Functions"
-]
+        lesson_options = [
+            "Prove and Apply the Pythagorean Theorem",
+            "Understanding Linear Equations and Functions"
+        ]
 
-# Preselect lesson if coming from dashboard
-default_index = 0
-if "selected_lesson" in st.session_state:
-    if st.session_state.selected_lesson in lesson_options:
-        default_index = lesson_options.index(st.session_state.selected_lesson)
+        # Preselect lesson if coming from dashboard
+        default_index = 0
+        if "selected_lesson" in st.session_state:
+            if st.session_state.selected_lesson in lesson_options:
+                default_index = lesson_options.index(st.session_state.selected_lesson)
 
-lesson = st.selectbox("Choose a lesson:", lesson_options, index=default_index)
+        lesson = st.selectbox("Choose a lesson:", lesson_options, index=default_index)
 
-
+        # Run the selected lesson
         if lesson == "Prove and Apply the Pythagorean Theorem":
             result = run_pythagorean_lesson()
             if result:
@@ -54,6 +53,11 @@ lesson = st.selectbox("Choose a lesson:", lesson_options, index=default_index)
             if result:
                 st.session_state.lesson_result = result
 
+        # ✅ Reset selected_lesson after launching
+        if "selected_lesson" in st.session_state:
+            del st.session_state.selected_lesson
+
+        # Save progress
         if "lesson_result" in st.session_state and student_name:
             lesson_result = st.session_state.lesson_result
 
@@ -90,6 +94,7 @@ lesson = st.selectbox("Choose a lesson:", lesson_options, index=default_index)
 # --- PARENT VIEW ---
 elif role == "Parent":
     show_parent_dashboard()
+
 
 
 
