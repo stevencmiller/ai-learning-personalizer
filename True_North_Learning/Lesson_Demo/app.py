@@ -17,6 +17,7 @@ from modules.student_dashboard import show_student_dashboard
 from modules.parent_dashboard import show_parent_dashboard
 
 # Streamlit page setup
+
 st.set_page_config(page_title="True North Learning", page_icon="🧭")
 st.title("🧭 True North Learning")
 st.write("Welcome to your personalized learning journey!")
@@ -86,6 +87,9 @@ elif role == "Parent":
 
 # Page 1: Lesson
 if page == "Lesson":
+    st.title("🧭 True North Learning")
+    st.write("Welcome to your personalized learning journey!")
+
     lesson = st.selectbox("Choose a lesson:", [
         "Prove and Apply the Pythagorean Theorem",
         "Understanding Linear Equations and Functions"
