@@ -18,7 +18,7 @@ from modules.parent_dashboard import show_parent_dashboard
 
 # Streamlit page setup
 st.set_page_config(page_title="True North Learning", page_icon="🧭")
-st.title("🧭 True North Learning")
+st.markdown("# 🧭 True North Learning\nWelcome to your personalized learning journey!")
 st.write("Welcome to your personalized learning journey!")
 
 # User Role & Page Selection
