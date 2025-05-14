@@ -2,6 +2,7 @@ import os
 import sys
 import streamlit as st
 from datetime import datetime
+import json
 
 # Ensure module path includes the current subfolder (Lesson_Demo/modules)
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -21,15 +22,11 @@ st.write("Welcome to your personalized learning journey!")
 
 # User input
 student_name = st.text_input("Enter your name:")
-page = st.sidebar.radio("Select Page", ["Lesson", "View Saved Progress", "Dashboard"])
 
+# Navigation between pages
+page = st.sidebar.radio("📚 Navigate", ["Lesson", "View Saved Progress", "Dashboard"])
 
-# Lesson selector
-lesson = st.selectbox("Choose a lesson:", [
-    "Prove and Apply the Pythagorean Theorem",
-    "Understanding Linear Equations and Functions"
-])
-
+# Page 1: Lesson
 if page == "Lesson":
     lesson = st.selectbox("Choose a lesson:", [
         "Prove and Apply the Pythagorean Theorem",
@@ -57,25 +54,9 @@ if page == "Lesson":
             )
             st.success("✅ Progress saved successfully!")
 
+# Page 2: View Raw Progress (Dev Tool)
 elif page == "View Saved Progress":
-    log_file = os.path.join("student_logs", f"{student_name.replace(' ', '_')}_progress.json")
-    if os.path.exists(log_file):
-        if st.checkbox("📂 View My Saved Progress (dev tool)"):
-            import json
-            with open(log_file, "r") as f:
-                progress_data = json.load(f)
-            st.json(progress_data)
-    else:
-        st.info("No saved progress found yet.")
-
-elif page == "Dashboard":
     if student_name:
-        show_dashboard(student_name)
-    else:
-        st.warning("Please enter your name to view your dashboard.")
-
-
- # ✅ DEVELOPMENT TOOL: Show saved log for this student
         log_file = os.path.join("student_logs", f"{student_name.replace(' ', '_')}_progress.json")
         if os.path.exists(log_file):
             if st.checkbox("📂 View My Saved Progress (dev tool)"):
@@ -84,5 +65,15 @@ elif page == "Dashboard":
                 st.json(progress_data)
         else:
             st.info("No saved progress found yet.")
+    else:
+        st.warning("Please enter your name to load your saved progress.")
+
+# Page 3: Dashboard
+elif page == "Dashboard":
+    if student_name:
+        show_dashboard(student_name)
+    else:
+        st.warning("Please enter your name to view your dashboard.")
+
 
 
