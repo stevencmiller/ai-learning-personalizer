@@ -30,10 +30,19 @@ if role == "Student":
     student_name = st.sidebar.text_input("👤 Enter your name:")
 
     if page == "Lessons":
-        lesson = st.selectbox("Choose a lesson:", [
-            "Prove and Apply the Pythagorean Theorem",
-            "Understanding Linear Equations and Functions"
-        ])
+       lesson_options = [
+    "Prove and Apply the Pythagorean Theorem",
+    "Understanding Linear Equations and Functions"
+]
+
+# Preselect lesson if coming from dashboard
+default_index = 0
+if "selected_lesson" in st.session_state:
+    if st.session_state.selected_lesson in lesson_options:
+        default_index = lesson_options.index(st.session_state.selected_lesson)
+
+lesson = st.selectbox("Choose a lesson:", lesson_options, index=default_index)
+
 
         if lesson == "Prove and Apply the Pythagorean Theorem":
             result = run_pythagorean_lesson()
