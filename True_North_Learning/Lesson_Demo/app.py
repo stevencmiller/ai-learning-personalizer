@@ -1,4 +1,9 @@
 import os
+
+if not os.path.exists("student_logs"):
+    os.makedirs("student_logs")
+
+
 import sys
 import streamlit as st
 from datetime import datetime
