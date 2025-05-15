@@ -33,12 +33,13 @@ def show_student_dashboard(student_name):
         with col1:
             if st.button("▶️ Resume Last Lesson"):
                 st.session_state.selected_lesson = last_lesson["lesson_name"]
-                st.session_state.page = "lesson"
+                st.session_state["page"] = "Lessons"  # Match sidebar options
                 st.experimental_rerun()
 
         with col2:
             if st.button("📚 Explore All Lessons"):
-                st.session_state.page = "explore"
+                st.session_state["page"] = "Lessons"
+                st.session_state.selected_lesson = None
                 st.experimental_rerun()
 
         # Optional: Show full progress table
@@ -49,5 +50,7 @@ def show_student_dashboard(student_name):
         st.warning("No progress data found. Click below to begin your learning journey!")
 
         if st.button("📚 Start Exploring Lessons"):
-            st.session_state.page = "explore"
+            st.session_state["page"] = "Lessons"
+            st.session_state.selected_lesson = None
             st.experimental_rerun()
+
