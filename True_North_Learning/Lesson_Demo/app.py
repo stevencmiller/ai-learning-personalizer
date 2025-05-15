@@ -1,6 +1,8 @@
 import os
 import sys
 import streamlit as st
+st.write("Streamlit version:", st.__version__)
+
 import json
 
 # Ensure module path includes the current subfolder (Lesson_Demo/modules)
