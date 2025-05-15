@@ -1,5 +1,4 @@
 # student_dashboard.py
-
 import os
 import json
 import streamlit as st
@@ -30,21 +29,22 @@ def show_student_dashboard(student_name):
     st.markdown("---")
     st.markdown("🎯 What would you like to do next?")
 
-    if st.button("▶️ Resume Last Lesson"):
-        # If no progress found, fallback to first lesson
-        last_lesson = data[-1]['lesson_name'] if os.path.exists(log_file) and data else "Prove and Apply the Pythagorean Theorem"
-        st.session_state.selected_lesson = last_lesson
-        st.session_state.page = "Lessons"
+    if st.button("Resume Last Lesson"):
+        # Safely get the last lesson from data if it exists
+        if os.path.exists(log_file):
+            with open(log_file, "r") as f:
+                data = json.load(f)
+            if data:
+                last_lesson_name = data[-1]['lesson_name']
+                # Save to session_state for navigation and preselection
+                st.session_state.selected_lesson = last_lesson_name
+                st.session_state.page = 'Lessons'
+                st.experimental_rerun()
+            else:
+                st.warning("No lessons found to resume.")
+        else:
+            st.warning("No saved progress found yet.")
+
+    if st.button("Explore All Lessons"):
+        st.session_state.page = 'Lessons'
         st.experimental_rerun()
-
-    if st.button("📘 Suggested Next Lesson"):
-        # For example, suggest linear equations lesson next
-        st.session_state.selected_lesson = "Understanding Linear Equations and Functions"
-        st.session_state.page = "Lessons"
-        st.experimental_rerun()
-
-    if st.button("📚 Explore All Lessons"):
-        st.session_state.page = "Lessons"
-        st.experimental_rerun()
-
-
