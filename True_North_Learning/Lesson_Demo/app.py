@@ -8,13 +8,6 @@ from modules.student_dashboard import show_student_dashboard
 from modules.lesson_handler import show_lessons
 from modules.utils import log_progress, view_saved_progress
 
-role = st.selectbox("Select your role:", ["Student", "Parent"])
-
-if role == "Student":
-    # student_name input and logic block here
-elif role == "Parent":
-    show_parent_dashboard()
-
 # Create a folder to store student logs if it doesn't exist
 if not os.path.exists("student_logs"):
     os.makedirs("student_logs")
@@ -51,6 +44,8 @@ if student_name:
 
     elif page == "Upload Data":
         st.info("📤 Upload data feature coming soon.")
+
 else:
     st.warning("👋 Please enter your name to begin.")
+
 
