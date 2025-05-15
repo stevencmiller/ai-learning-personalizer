@@ -33,12 +33,12 @@ def show_student_dashboard(student_name):
             if st.button("▶️ Resume Last Lesson"):
                 st.session_state.selected_lesson = last_lesson["lesson_name"]
                 st.session_state.page = "Lessons"
-                st.experimental_rerun()
+                st.rerun()
 
         with col2:
             if st.button("📚 Explore All Lessons"):
                 st.session_state.page = "Lessons"
-                st.experimental_rerun()
+                st.rerun()
 
         with st.expander("📈 See Full Progress History"):
             st.table(progress_data)
@@ -48,4 +48,5 @@ def show_student_dashboard(student_name):
 
         if st.button("📚 Start Exploring Lessons"):
             st.session_state.page = "Lessons"
-            st.experimental_rerun()
+            st.rerun()
+
