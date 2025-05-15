@@ -20,9 +20,20 @@ from modules.parent_dashboard import show_parent_dashboard
 st.set_page_config(page_title="True North Learning", page_icon="🧭")
 st.markdown("# 🧭 True North Learning\nWelcome to your personalized learning journey!")
 
-# User Role & Page Selection
+# Initialize session state variables if they don't exist
+if 'page' not in st.session_state:
+    st.session_state.page = 'Lessons'  # Default page
+if 'selected_lesson' not in st.session_state:
+    st.session_state.selected_lesson = "Prove and Apply the Pythagorean Theorem"  # Default lesson
+
+# Sidebar user inputs
 role = st.sidebar.selectbox("Who is using the app?", ["Student", "Parent"])
-page = st.sidebar.radio("📚 Navigate", ["Lessons", "Dashboard", "View Saved Progress", "Upload Data"])
+
+# Override page with session state page for navigation from buttons
+page = st.sidebar.radio("📚 Navigate", ["Lessons", "Dashboard", "View Saved Progress", "Upload Data"], index=["Lessons", "Dashboard", "View Saved Progress", "Upload Data"].index(st.session_state.page))
+# Update session_state.page when sidebar changes
+if page != st.session_state.page:
+    st.session_state.page = page
 
 # --- STUDENT VIEW ---
 if role == "Student":
@@ -34,15 +45,17 @@ if role == "Student":
             "Understanding Linear Equations and Functions"
         ]
 
-        # Preselect lesson if coming from dashboard
+        # Use session_state.selected_lesson to set the default selected lesson
         default_index = 0
-        if "selected_lesson" in st.session_state:
-            if st.session_state.selected_lesson in lesson_options:
-                default_index = lesson_options.index(st.session_state.selected_lesson)
+        if st.session_state.selected_lesson in lesson_options:
+            default_index = lesson_options.index(st.session_state.selected_lesson)
 
         lesson = st.selectbox("Choose a lesson:", lesson_options, index=default_index)
 
-        # Run the selected lesson
+        # Update session_state.selected_lesson when user picks manually
+        if lesson != st.session_state.selected_lesson:
+            st.session_state.selected_lesson = lesson
+
         if lesson == "Prove and Apply the Pythagorean Theorem":
             result = run_pythagorean_lesson()
             if result:
@@ -53,11 +66,6 @@ if role == "Student":
             if result:
                 st.session_state.lesson_result = result
 
-        # ✅ Reset selected_lesson after launching
-        if "selected_lesson" in st.session_state:
-            del st.session_state.selected_lesson
-
-        # Save progress
         if "lesson_result" in st.session_state and student_name:
             lesson_result = st.session_state.lesson_result
 
@@ -94,6 +102,7 @@ if role == "Student":
 # --- PARENT VIEW ---
 elif role == "Parent":
     show_parent_dashboard()
+
 
 
 
