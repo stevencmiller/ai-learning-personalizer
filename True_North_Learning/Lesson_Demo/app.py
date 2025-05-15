@@ -1,9 +1,4 @@
 import os
-
-if not os.path.exists("student_logs"):
-    os.makedirs("student_logs")
-
-
 import sys
 import streamlit as st
 from datetime import datetime
@@ -24,63 +19,56 @@ from modules.parent_dashboard import show_parent_dashboard
 # Streamlit page setup
 st.set_page_config(page_title="True North Learning", page_icon="🧭")
 st.markdown("# 🧭 True North Learning\nWelcome to your personalized learning journey!")
+st.write("Welcome to your personalized learning journey!")
 
-# Initialize session state variables if they don't exist
-if 'page' not in st.session_state:
-    st.session_state.page = 'Lessons'  # Default page
-if 'selected_lesson' not in st.session_state:
-    st.session_state.selected_lesson = "Prove and Apply the Pythagorean Theorem"  # Default lesson
-
-# Sidebar user inputs
+# User Role & Page Selection
 role = st.sidebar.selectbox("Who is using the app?", ["Student", "Parent"])
-
-# Override page with session state page for navigation from buttons
-page = st.sidebar.radio("📚 Navigate", ["Lessons", "Dashboard", "View Saved Progress", "Upload Data"], index=["Lessons", "Dashboard", "View Saved Progress", "Upload Data"].index(st.session_state.page))
-# Update session_state.page when sidebar changes
-if page != st.session_state.page:
-    st.session_state.page = page
+page = st.sidebar.radio("📚 Navigate", ["Lessons", "Dashboard", "View Saved Progress", "Upload Data"])
 
 # --- STUDENT VIEW ---
 if role == "Student":
     student_name = st.sidebar.text_input("👤 Enter your name:")
 
     if page == "Lessons":
-        lesson_options = [
-            "Prove and Apply the Pythagorean Theorem",
-            "Understanding Linear Equations and Functions"
-        ]
+        if student_name:
+            # Lesson options
+            lesson_options = [
+                "Prove and Apply the Pythagorean Theorem",
+                "Understanding Linear Equations and Functions"
+            ]
 
-        # Use session_state.selected_lesson to set the default selected lesson
-        default_index = 0
-        if st.session_state.selected_lesson in lesson_options:
-            default_index = lesson_options.index(st.session_state.selected_lesson)
+            # Preselect lesson if coming from dashboard
+            default_index = 0
+            if "selected_lesson" in st.session_state:
+                if st.session_state.selected_lesson in lesson_options:
+                    default_index = lesson_options.index(st.session_state.selected_lesson)
 
-        lesson = st.selectbox("Choose a lesson:", lesson_options, index=default_index)
+            lesson = st.selectbox("Choose a lesson:", lesson_options, index=default_index)
 
-        # Update session_state.selected_lesson when user picks manually
-        if lesson != st.session_state.selected_lesson:
-            st.session_state.selected_lesson = lesson
+            # Run selected lesson
+            if lesson == "Prove and Apply the Pythagorean Theorem":
+                result = run_pythagorean_lesson()
+                if result:
+                    st.session_state.lesson_result = result
 
-        if lesson == "Prove and Apply the Pythagorean Theorem":
-            result = run_pythagorean_lesson()
-            if result:
-                st.session_state.lesson_result = result
+            elif lesson == "Understanding Linear Equations and Functions":
+                result = run_linear_lesson(student_name)
+                if result:
+                    st.session_state.lesson_result = result
 
-        elif lesson == "Understanding Linear Equations and Functions":
-            result = run_linear_lesson(student_name)
-            if result:
-                st.session_state.lesson_result = result
+            # Save Progress
+            if "lesson_result" in st.session_state:
+                lesson_result = st.session_state.lesson_result
+                if st.button("📥 Save Progress"):
+                    log_progress(
+                        student_name,
+                        lesson_result["lesson_name"],
+                        lesson_result["score"]
+                    )
+                    st.success("✅ Progress saved successfully!")
 
-        if "lesson_result" in st.session_state and student_name:
-            lesson_result = st.session_state.lesson_result
-
-            if st.button("📥 Save Progress"):
-                log_progress(
-                    student_name,
-                    lesson_result["lesson_name"],
-                    lesson_result["score"]
-                )
-                st.success("✅ Progress saved successfully!")
+        else:
+            st.warning("Please enter your name to begin lessons.")
 
     elif page == "Dashboard":
         if student_name:
@@ -107,9 +95,3 @@ if role == "Student":
 # --- PARENT VIEW ---
 elif role == "Parent":
     show_parent_dashboard()
-
-
-
-
-
-
