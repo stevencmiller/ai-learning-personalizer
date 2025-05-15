@@ -23,28 +23,27 @@ def show_student_dashboard(student_name):
         for entry in reversed(data):
             st.markdown(f"- **{entry['lesson_name']}** — Score: {entry['score']}% on {entry['timestamp']}")
 
+        # Buttons for next actions
+        st.markdown("---")
+        st.markdown("🎯 What would you like to do next?")
+
+        if st.button("Resume Last Lesson"):
+            # Save last lesson to session state to use in app.py
+            last_lesson = data[-1]['lesson_name']
+            st.session_state['selected_lesson'] = last_lesson
+            st.session_state['page'] = "Lessons"
+            st.experimental_rerun()
+
+        if st.button("Explore All Lessons"):
+            st.session_state['page'] = "Lessons"
+            st.experimental_rerun()
+
     else:
         st.info("No saved progress found yet. Start your first lesson!")
 
-    st.markdown("---")
-    st.markdown("🎯 What would you like to do next?")
+        st.markdown("---")
+        st.markdown("🎯 What would you like to do next?")
 
-    if st.button("Resume Last Lesson"):
-        # Safely get the last lesson from data if it exists
-        if os.path.exists(log_file):
-            with open(log_file, "r") as f:
-                data = json.load(f)
-            if data:
-                last_lesson_name = data[-1]['lesson_name']
-                # Save to session_state for navigation and preselection
-                st.session_state.selected_lesson = last_lesson_name
-                st.session_state.page = 'Lessons'
-                st.experimental_rerun()
-            else:
-                st.warning("No lessons found to resume.")
-        else:
-            st.warning("No saved progress found yet.")
-
-    if st.button("Explore All Lessons"):
-        st.session_state.page = 'Lessons'
-        st.experimental_rerun()
+        if st.button("Explore All Lessons"):
+            st.session_state['page'] = "Lessons"
+            st.experimental_rerun()
