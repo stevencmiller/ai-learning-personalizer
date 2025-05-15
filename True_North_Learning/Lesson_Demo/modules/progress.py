@@ -2,7 +2,14 @@ import os
 import json
 from datetime import datetime
 
+import os
+
 def log_progress(student_name, lesson_name, score):
+    log_dir = "student_logs"
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
+    # rest of your logging code here... 
+    
     progress_entry = {
         "student_name": student_name,
         "lesson_name": lesson_name,
