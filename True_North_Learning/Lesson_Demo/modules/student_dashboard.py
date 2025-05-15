@@ -23,27 +23,21 @@ def show_student_dashboard(student_name):
         for entry in reversed(data):
             st.markdown(f"- **{entry['lesson_name']}** — Score: {entry['score']}% on {entry['timestamp']}")
 
-        # Buttons for next actions
         st.markdown("---")
         st.markdown("🎯 What would you like to do next?")
 
-        if st.button("Resume Last Lesson"):
-            # Save last lesson to session state to use in app.py
-            last_lesson = data[-1]['lesson_name']
-            st.session_state['selected_lesson'] = last_lesson
-            st.session_state['page'] = "Lessons"
-            st.experimental_rerun()
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("Resume Last Lesson"):
+                last_lesson = data[-1]['lesson_name']
+                st.session_state['selected_lesson'] = last_lesson
+                st.session_state['page'] = "Lessons"
+                st.experimental_rerun()
 
-        if st.button("Explore All Lessons"):
-            st.session_state['page'] = "Lessons"
-            st.experimental_rerun()
+        with col2:
+            if st.button("Explore All Lessons"):
+                st.session_state['page'] = "Lessons"
+                st.experimental_rerun()
 
     else:
         st.info("No saved progress found yet. Start your first lesson!")
-
-        st.markdown("---")
-        st.markdown("🎯 What would you like to do next?")
-
-        if st.button("Explore All Lessons"):
-            st.session_state['page'] = "Lessons"
-            st.experimental_rerun()
