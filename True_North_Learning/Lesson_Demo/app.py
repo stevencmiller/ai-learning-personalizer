@@ -1,7 +1,6 @@
 import os
 import sys
 import streamlit as st
-from datetime import datetime
 import json
 
 # Ensure module path includes the current subfolder (Lesson_Demo/modules)
@@ -19,33 +18,47 @@ from modules.parent_dashboard import show_parent_dashboard
 # Streamlit page setup
 st.set_page_config(page_title="True North Learning", page_icon="🧭")
 st.markdown("# 🧭 True North Learning\nWelcome to your personalized learning journey!")
-st.write("Welcome to your personalized learning journey!")
+
+# Initialize session state variables if not present
+if "page" not in st.session_state:
+    st.session_state["page"] = "Lessons"  # Default page
+
+if "selected_lesson" not in st.session_state:
+    st.session_state["selected_lesson"] = None
 
 # User Role & Page Selection
 role = st.sidebar.selectbox("Who is using the app?", ["Student", "Parent"])
-page = st.sidebar.radio("📚 Navigate", ["Lessons", "Dashboard", "View Saved Progress", "Upload Data"])
 
-# --- STUDENT VIEW ---
 if role == "Student":
     student_name = st.sidebar.text_input("👤 Enter your name:")
 
-    if page == "Lessons":
-        if student_name:
-            # Lesson options
+    # Sync sidebar navigation with session state page
+    page = st.sidebar.radio(
+        "📚 Navigate",
+        ["Lessons", "Dashboard", "View Saved Progress", "Upload Data"],
+        index=["Lessons", "Dashboard", "View Saved Progress", "Upload Data"].index(st.session_state["page"])
+    )
+    st.session_state["page"] = page  # Update page in session_state if changed
+
+    if student_name.strip() == "":
+        st.warning("Please enter your name to proceed.")
+    else:
+        if page == "Lessons":
+            # If a lesson is preselected (from resume last lesson), use it
             lesson_options = [
                 "Prove and Apply the Pythagorean Theorem",
                 "Understanding Linear Equations and Functions"
             ]
 
-            # Preselect lesson if coming from dashboard
             default_index = 0
-            if "selected_lesson" in st.session_state:
-                if st.session_state.selected_lesson in lesson_options:
-                    default_index = lesson_options.index(st.session_state.selected_lesson)
+            if st.session_state.selected_lesson in lesson_options:
+                default_index = lesson_options.index(st.session_state.selected_lesson)
 
             lesson = st.selectbox("Choose a lesson:", lesson_options, index=default_index)
 
-            # Run selected lesson
+            # Save the currently selected lesson to session_state
+            st.session_state.selected_lesson = lesson
+
             if lesson == "Prove and Apply the Pythagorean Theorem":
                 result = run_pythagorean_lesson()
                 if result:
@@ -56,9 +69,9 @@ if role == "Student":
                 if result:
                     st.session_state.lesson_result = result
 
-            # Save Progress
             if "lesson_result" in st.session_state:
                 lesson_result = st.session_state.lesson_result
+
                 if st.button("📥 Save Progress"):
                     log_progress(
                         student_name,
@@ -67,17 +80,10 @@ if role == "Student":
                     )
                     st.success("✅ Progress saved successfully!")
 
-        else:
-            st.warning("Please enter your name to begin lessons.")
-
-    elif page == "Dashboard":
-        if student_name:
+        elif page == "Dashboard":
             show_student_dashboard(student_name)
-        else:
-            st.warning("Please enter your name to view your dashboard.")
 
-    elif page == "View Saved Progress":
-        if student_name:
+        elif page == "View Saved Progress":
             log_file = os.path.join("student_logs", f"{student_name.replace(' ', '_')}_progress.json")
             if os.path.exists(log_file):
                 if st.checkbox("📂 View My Saved Progress (dev tool)"):
@@ -86,12 +92,9 @@ if role == "Student":
                     st.json(progress_data)
             else:
                 st.info("No saved progress found yet.")
-        else:
-            st.warning("Please enter your name to load your saved progress.")
 
-    elif page == "Upload Data":
-        st.info("📤 Upload data feature coming soon.")
+        elif page == "Upload Data":
+            st.info("📤 Upload data feature coming soon.")
 
-# --- PARENT VIEW ---
 elif role == "Parent":
     show_parent_dashboard()
