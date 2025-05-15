@@ -32,46 +32,41 @@ role = st.sidebar.selectbox("Who is using the app?", ["Student", "Parent"])
 if role == "Student":
     student_name = st.sidebar.text_input("👤 Enter your name:")
 
-    # Sync sidebar navigation with session state page
     page = st.sidebar.radio(
         "📚 Navigate",
         ["Lessons", "Dashboard", "View Saved Progress", "Upload Data"],
         index=["Lessons", "Dashboard", "View Saved Progress", "Upload Data"].index(st.session_state["page"])
     )
-    st.session_state["page"] = page  # Update page in session_state if changed
+    st.session_state["page"] = page
 
     if student_name.strip() == "":
         st.warning("Please enter your name to proceed.")
     else:
         if page == "Lessons":
-            # If a lesson is preselected (from resume last lesson), use it
             lesson_options = [
                 "Prove and Apply the Pythagorean Theorem",
                 "Understanding Linear Equations and Functions"
             ]
-
             default_index = 0
             if st.session_state.selected_lesson in lesson_options:
                 default_index = lesson_options.index(st.session_state.selected_lesson)
 
             lesson = st.selectbox("Choose a lesson:", lesson_options, index=default_index)
-
-            # Save the currently selected lesson to session_state
             st.session_state.selected_lesson = lesson
 
-            if lesson == "Prove and Apply the Pythagorean Theorem":
-                result = run_pythagorean_lesson()
-                if result:
-                    st.session_state.lesson_result = result
+            if st.button("▶️ Start Lesson"):
+                if lesson == "Prove and Apply the Pythagorean Theorem":
+                    result = run_pythagorean_lesson()
+                    if result:
+                        st.session_state.lesson_result = result
 
-            elif lesson == "Understanding Linear Equations and Functions":
-                result = run_linear_lesson(student_name)
-                if result:
-                    st.session_state.lesson_result = result
+                elif lesson == "Understanding Linear Equations and Functions":
+                    result = run_linear_lesson(student_name)
+                    if result:
+                        st.session_state.lesson_result = result
 
             if "lesson_result" in st.session_state:
                 lesson_result = st.session_state.lesson_result
-
                 if st.button("📥 Save Progress"):
                     log_progress(
                         student_name,
