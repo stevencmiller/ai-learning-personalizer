@@ -3,7 +3,6 @@
 import os
 import json
 import streamlit as st
-from modules.utils import get_last_lesson, get_next_suggested_lesson  # Make sure this exists
 
 def show_student_dashboard(student_name):
     st.subheader(f"📊 {student_name}'s Progress Dashboard")
@@ -31,30 +30,21 @@ def show_student_dashboard(student_name):
     st.markdown("---")
     st.markdown("🎯 What would you like to do next?")
 
-    col1, col2 = st.columns(2)
+    if st.button("▶️ Resume Last Lesson"):
+        # If no progress found, fallback to first lesson
+        last_lesson = data[-1]['lesson_name'] if os.path.exists(log_file) and data else "Prove and Apply the Pythagorean Theorem"
+        st.session_state.selected_lesson = last_lesson
+        st.session_state.page = "Lessons"
+        st.experimental_rerun()
 
-    all_lessons = [
-        "Prove and Apply the Pythagorean Theorem",
-        "Understanding Linear Equations and Functions"
-    ]
+    if st.button("📘 Suggested Next Lesson"):
+        # For example, suggest linear equations lesson next
+        st.session_state.selected_lesson = "Understanding Linear Equations and Functions"
+        st.session_state.page = "Lessons"
+        st.experimental_rerun()
 
-    with col1:
-        if st.button("📘 Resume Last Lesson"):
-            last = get_last_lesson(student_name)
-            if last:
-                st.session_state.selected_lesson = last
-                st.session_state.page = "Lessons"
-                st.rerun()
-            else:
-                st.warning("No saved lessons found to resume.")
+    if st.button("📚 Explore All Lessons"):
+        st.session_state.page = "Lessons"
+        st.experimental_rerun()
 
-    with col2:
-        if st.button("🚀 Start Next Suggested Lesson"):
-            next_lesson = get_next_suggested_lesson(student_name, all_lessons)
-            if next_lesson:
-                st.session_state.selected_lesson = next_lesson
-                st.session_state.page = "Lessons"
-                st.rerun()
-            else:
-                st.success("🎉 You've completed all available lessons!")
 
