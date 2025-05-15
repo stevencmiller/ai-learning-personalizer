@@ -1,4 +1,3 @@
-# student_dashboard.py
 import os
 import json
 import streamlit as st
@@ -26,9 +25,11 @@ def show_student_dashboard(student_name):
         st.markdown("---")
         st.markdown("🎯 What would you like to do next?")
 
+        # Buttons in columns
         col1, col2 = st.columns(2)
         with col1:
             if st.button("Resume Last Lesson"):
+                # Save selected lesson and navigate to Lessons page
                 last_lesson = data[-1]['lesson_name']
                 st.session_state['selected_lesson'] = last_lesson
                 st.session_state['page'] = "Lessons"
