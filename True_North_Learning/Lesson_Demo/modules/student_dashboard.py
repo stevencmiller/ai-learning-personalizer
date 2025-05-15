@@ -39,3 +39,12 @@ def show_student_dashboard(student_name):
     else:
         st.info("No saved progress found yet. Start your first lesson!")
 
+log_file = os.path.join("student_logs", f"{student_name.replace(' ', '_')}_progress.json")
+
+if os.path.exists(log_file):
+    with open(log_file, "r") as f:
+        progress_data = json.load(f)
+    st.write("Loaded progress data:")
+    st.json(progress_data)
+else:
+    st.warning("No saved progress found.")
