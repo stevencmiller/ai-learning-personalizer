@@ -16,7 +16,8 @@ if not st.session_state.student_name:
     student_name_input = st.text_input("Enter your name to begin:")
     if student_name_input:
         st.session_state.student_name = student_name_input.strip()
-        st.experimental_rerun()
+        st.rerun()
+
 else:
     student_name = st.session_state.student_name
 
