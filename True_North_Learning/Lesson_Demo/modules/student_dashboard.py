@@ -1,24 +1,24 @@
 import streamlit as st
-import os
 import pandas as pd
-
-def get_progress_file_path(student_name):
-    return os.path.join("student_logs", f"{student_name}_progress.csv")
+from modules.utils import view_saved_progress
 
 def show_student_dashboard(student_name):
     st.header(f"📊 {student_name}'s Progress Dashboard")
 
-    file_path = get_progress_file_path(student_name)
+    logs = view_saved_progress(student_name)
 
-    if os.path.exists(file_path):
-        df = pd.read_csv(file_path)
+    if logs:
+        df = pd.DataFrame(logs)
 
         if not df.empty:
             st.subheader("Lesson History")
             st.dataframe(df)
 
-            avg_score = df["score"].mean()
-            st.metric("Average Score", f"{avg_score:.2f}")
+            if "score" in df.columns:
+                avg_score = df["score"].mean()
+                st.metric("Average Score", f"{avg_score:.2f}")
+            else:
+                st.warning("No scores available in the logs yet.")
         else:
             st.info("No progress recorded yet.")
     else:
