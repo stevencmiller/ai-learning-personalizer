@@ -1,32 +1,34 @@
 import os
 import json
-from datetime import datetime
 
-def log_progress(student_name, lesson_name, score):
-    log_file = os.path.join("student_logs", f"{student_name.replace(' ', '_')}_progress.json")
+LOG_DIR = "student_logs"
 
-    if os.path.exists(log_file):
-        with open(log_file, "r") as f:
-            data = json.load(f)
+def get_log_path(student_name):
+    """Returns the file path for a student's progress log."""
+    safe_name = student_name.replace(" ", "_").lower()
+    return os.path.join(LOG_DIR, f"{safe_name}_log.json")
+
+def log_progress(student_name, progress):
+    """Appends a new progress entry to the student's log file."""
+    log_path = get_log_path(student_name)
+    
+    if os.path.exists(log_path):
+        with open(log_path, "r") as f:
+            logs = json.load(f)
     else:
-        data = []
+        logs = []
 
-    new_entry = {
-        "lesson_name": lesson_name,
-        "score": score,
-        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    }
+    logs.append(progress)
 
-    data.append(new_entry)
-
-    with open(log_file, "w") as f:
-        json.dump(data, f, indent=4)
+    with open(log_path, "w") as f:
+        json.dump(logs, f, indent=2)
 
 def view_saved_progress(student_name):
-    log_file = os.path.join("student_logs", f"{student_name.replace(' ', '_')}_progress.json")
-
-    if os.path.exists(log_file):
-        with open(log_file, "r") as f:
+    """Returns the saved progress data for the student, or empty list if none."""
+    log_path = get_log_path(student_name)
+    
+    if os.path.exists(log_path):
+        with open(log_path, "r") as f:
             return json.load(f)
     return []
 
