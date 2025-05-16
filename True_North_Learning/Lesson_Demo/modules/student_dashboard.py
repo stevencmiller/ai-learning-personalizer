@@ -1,35 +1,29 @@
 import streamlit as st
-from modules.utils import view_saved_progress
+import os
+import pandas as pd
+
+def get_progress_file_path(student_name):
+    return os.path.join("student_logs", f"{student_name}_progress.csv")
 
 def show_student_dashboard(student_name):
-    st.header(f"📊 Welcome back, {student_name}!")
+    st.header(f"📊 {student_name}'s Progress Dashboard")
 
-    progress_data = view_saved_progress(student_name)
+    file_path = get_progress_file_path(student_name)
 
-    if progress_data:
-        # Sort by latest timestamp
-        last_lesson = sorted(progress_data, key=lambda x: x["timestamp"], reverse=True)[0]
+    if os.path.exists(file_path):
+        df = pd.read_csv(file_path)
 
-        st.success(f"✅ Last completed lesson: **{last_lesson['lesson_name']}** (Score: {last_lesson['score']})")
+        if not df.empty:
+            st.subheader("Lesson History")
+            st.dataframe(df)
 
-        col1, col2 = st.columns(2)
-
-        with col1:
-            if st.button("▶️ Resume Last Lesson"):
-                st.session_state.selected_lesson = last_lesson["lesson_name"]
-                st.session_state.page = "Lessons"
-                st.experimental_rerun()
-
-        with col2:
-            if st.button("📚 Explore All Lessons"):
-                st.session_state.page = "Lessons"
-                st.experimental_rerun()
-
-        with st.expander("📈 See Full Progress History"):
-            st.table(progress_data)
-
+            avg_score = df["score"].mean()
+            st.metric("Average Score", f"{avg_score:.2f}")
+        else:
+            st.info("No progress recorded yet.")
     else:
-        st.warning("No progress data found yet. Click below to begin your learning journey!")
+        st.info("No progress recorded yet. Try completing a lesson!")
+
 
         if st.button("📚 Start Exploring Lessons"):
             st.session_state.page = "Lessons"
