@@ -1,42 +1,48 @@
-import os
 import streamlit as st
-from modules.student_dashboard import show_student_dashboard
 from modules.lesson_handler import show_lessons
-from modules.utils import log_progress, view_saved_progress
+from modules.student_dashboard import show_student_dashboard
+from modules.utils import log_progress
 
-# Ensure student_logs folder exists
-if not os.path.exists("student_logs"):
-    os.makedirs("student_logs")
+# Initialize session state
+if "page" not in st.session_state:
+    st.session_state.page = "Dashboard"
 
-st.title("🎓 True North Learning")
+if "student_name" not in st.session_state:
+    st.session_state.student_name = ""
 
-# Simple login: enter student name
-student_name = st.text_input("Enter your name to continue:")
-
-if student_name:
-    # Show dashboard by default
-    page = st.session_state.get("page", "Dashboard")
-
-    # Sidebar navigation
-    with st.sidebar:
-        st.header(f"Hello, {student_name}!")
-        if st.button("📊 Dashboard"):
-            st.session_state.page = "Dashboard"
-            page = "Dashboard"
-        if st.button("📘 Explore Lessons"):
-            st.session_state.page = "Lessons"
-            page = "Lessons"
-
-    if page == "Dashboard":
-        show_student_dashboard(student_name)
-
-    elif page == "Lessons":
-        # show_lessons returns progress dict or None
-        result = show_lessons(student_name)
-        if result:
-            log_progress(student_name, result)
-            st.success("✅ Progress saved! Return to dashboard to see your progress.")
+# Get or prompt for student name
+if not st.session_state.student_name:
+    st.title("🎓 Welcome to True North Learning")
+    student_name = st.text_input("Enter your name to begin:")
+    if student_name:
+        st.session_state.student_name = student_name
+        st.experimental_rerun()
 else:
-    st.info("Please enter your name to begin learning.")
+    student_name = st.session_state.student_name
+
+    st.sidebar.title("📌 Navigation")
+    if st.sidebar.button("🏠 Dashboard"):
+        st.session_state.page = "Dashboard"
+    if st.sidebar.button("📚 Explore Lessons"):
+        st.session_state.page = "Lessons"
+
+    st.sidebar.markdown("---")
+    if st.sidebar.button("🔄 Restart"):
+        for key in list(st.session_state.keys()):
+            del st.session_state[key]
+        st.experimental_rerun()
+
+    # Show appropriate page
+    if st.session_state.page == "Dashboard":
+        show_student_dashboard(student_name)
+    elif st.session_state.page == "Lessons":
+        progress = show_lessons(student_name)
+        if progress:
+            log_progress(student_name, progress)
+            st.success("✅ Your progress has been saved!")
+            if st.button("⬅️ Back to Dashboard"):
+                st.session_state.page = "Dashboard"
+                st.experimental_rerun()
+
 
 
