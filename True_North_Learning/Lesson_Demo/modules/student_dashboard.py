@@ -27,5 +27,4 @@ def show_student_dashboard(student_name):
 
         if st.button("📚 Start Exploring Lessons"):
             st.session_state.page = "Lessons"
-            st.experimental_rerun()
-
+            
