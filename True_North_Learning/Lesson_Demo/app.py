@@ -2,51 +2,38 @@ import streamlit as st
 import os
 from modules.student_dashboard import show_student_dashboard
 from modules.lesson_handler import show_lessons
-from modules.utils import log_progress
+from modules.utils import log_progress, view_saved_progress
 
-# Create the student log folder if it doesn't exist
+# Create a folder to store student logs if it doesn't exist
 if not os.path.exists("student_logs"):
     os.makedirs("student_logs")
 
-# Set page config
-st.set_page_config(page_title="True North Learning", layout="wide")
+# Sidebar: User Role Selection
+st.sidebar.title("True North Learning")
+role = st.sidebar.selectbox("Who are you?", ["Student", "Parent", "Educator"])
 
-# Initialize session state
-if "page" not in st.session_state:
-    st.session_state.page = "Home"
-if "student_name" not in st.session_state:
-    st.session_state.student_name = ""
-if "selected_lesson" not in st.session_state:
-    st.session_state.selected_lesson = None
+# Sidebar: Enter name if student
+if role == "Student":
+    student_name = st.sidebar.text_input("Enter your name:")
+    if student_name:
+        st.sidebar.success(f"Welcome, {student_name}!")
+        page = st.sidebar.radio("Navigate", ["Dashboard", "Lessons"])
 
-# Sidebar
-st.sidebar.title("🔹 Navigation")
-st.sidebar.write("Welcome to True North Learning!")
+        st.session_state.page = page  # Store current page
 
-# Student name input (top of sidebar)
-student_name = st.sidebar.text_input("Enter your name:", st.session_state.student_name)
-if student_name:
-    st.session_state.student_name = student_name
+        if page == "Dashboard":
+            show_student_dashboard(student_name)
 
-# Navigation buttons
-if student_name:
-    if st.sidebar.button("🏠 Dashboard"):
-        st.session_state.page = "Dashboard"
-    if st.sidebar.button("📘 Lessons"):
-        st.session_state.page = "Lessons"
+        elif page == "Lessons":
+            result = show_lessons(student_name)
+            if result:
+                log_progress(student_name, result["lesson_name"], result["score"])
+                st.success("Progress saved!")
+    else:
+        st.warning("Please enter your name to continue.")
 
-# Main content logic
-if not st.session_state.student_name:
-    st.warning("Please enter your name in the sidebar to continue.")
-elif st.session_state.page == "Dashboard":
-    show_student_dashboard(st.session_state.student_name)
-elif st.session_state.page == "Lessons":
-    result = show_lessons(st.session_state.student_name)
-    if result:
-        log_progress(st.session_state.student_name, result)
-        st.success("✅ Progress saved! You can return to the dashboard to see it.")
+else:
+    st.info(f"{role} features coming soon! Check back later.")
 
-        else:
-            st.info("No progress data available yet.")
 
 
