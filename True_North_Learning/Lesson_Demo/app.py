@@ -29,7 +29,7 @@ else:
         if st.button("📚 Explore Lessons"):
             st.session_state.page = "Lessons"
         st.markdown("---")
-       if st.sidebar.button("🔁 Restart"):
+    if st.sidebar.button("🔁 Restart"):
     for key in list(st.session_state.keys()):
         del st.session_state[key]
         st.rerun()
