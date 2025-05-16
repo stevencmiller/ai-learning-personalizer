@@ -1,30 +1,32 @@
+import os
+import json
 import streamlit as st
 import pandas as pd
-from modules.utils import view_saved_progress
+from modules.utils import get_log_path
 
-def show_student_dashboard(student_name):
-    st.header(f"📊 {student_name}'s Progress Dashboard")
-
-    logs = view_saved_progress(student_name)
-
-    if logs:
-        df = pd.DataFrame(logs)
-
-        if not df.empty:
-            st.subheader("Lesson History")
-            st.dataframe(df)
-
-            if "score" in df.columns:
-                avg_score = df["score"].mean()
-                st.metric("Average Score", f"{avg_score:.2f}")
-            else:
-                st.warning("No scores available in the logs yet.")
+def load_student_progress(student_name):
+    log_file = get_log_path(student_name)
+    if os.path.exists(log_file):
+        with open(log_file, "r") as f:
+            data = json.load(f)
+        if isinstance(data, list) and all("lesson_name" in entry for entry in data):
+            return data
         else:
-            st.info("No progress recorded yet.")
+            st.warning("Progress file found but has invalid format.")
+            return []
     else:
-        st.info("No progress recorded yet. Try completing a lesson!")
+        st.info("No saved progress found yet. Start your first lesson!")
+        return []
 
+# Example usage in the dashboard function
+def show_student_dashboard(student_name):
+    progress = load_student_progress(student_name)
 
+    if progress:
+        st.write("### Your Saved Progress")
+        df = pd.DataFrame(progress)
+        st.table(df)
+    else:
         if st.button("📚 Start Exploring Lessons"):
             st.session_state.page = "Lessons"
-            
+
