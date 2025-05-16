@@ -29,10 +29,11 @@ else:
         if st.button("📚 Explore Lessons"):
             st.session_state.page = "Lessons"
         st.markdown("---")
-        if st.button("🔄 Restart"):
-            for key in list(st.session_state.keys()):
-                del st.session_state[key]
-            st.experimental_rerun()
+       if st.sidebar.button("🔁 Restart"):
+    for key in list(st.session_state.keys()):
+        del st.session_state[key]
+        st.rerun()
+
 
     # Route between pages
     if st.session_state.page == "Dashboard":
