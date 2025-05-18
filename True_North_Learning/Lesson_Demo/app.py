@@ -24,17 +24,17 @@ else:
     # Sidebar navigation
     with st.sidebar:
         st.header(f"👋 Hello, {student_name}!")
-        if st.button("🏠 Dashboard"):
-            st.session_state.page = "Dashboard"
-            st.rerun()
-        if st.button("📚 Explore Lessons"):
-            st.session_state.page = "Lessons"
-            st.rerun()
+        
+        # Use radio buttons for navigation (safer and more stable)
+        st.session_state.page = st.radio(
+            "Navigate", ["Dashboard", "Lessons"], index=0 if st.session_state.page == "Dashboard" else 1
+        )
+
         st.markdown("---")
         if st.button("🔁 Restart"):
             for key in list(st.session_state.keys()):
                 del st.session_state[key]
-            st.rerun()  # rerun after all keys are cleared
+            st.rerun()  # restart app cleanly
 
     # Route between pages
     if st.session_state.page == "Dashboard":
@@ -45,9 +45,9 @@ else:
         if progress:
             log_progress(student_name, progress)
             st.success("✅ Your progress has been saved!")
-            if st.button("⬅️ Back to Dashboard"):
-                st.session_state.page = "Dashboard"
-                st.rerun()
+
+        if st.button("⬅️ Back to Dashboard"):
+            st.session_state.page = "Dashboard"
 
 
 
