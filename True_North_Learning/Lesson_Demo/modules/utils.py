@@ -11,7 +11,7 @@ if not os.path.exists(LOG_DIR):
 def get_log_path(student_name):
     safe_name = student_name.replace(" ", "_").lower()
     path = os.path.join(LOG_DIR, f"{safe_name}_log.json")
-    print(f"DEBUG: Log path resolved to: {os.path.abspath(path)}")  # or use st.write if in Streamlit app
+    # print(f"DEBUG: Log path resolved to: {os.path.abspath(path)}")  # or use st.write if in Streamlit app
     return path
 
 
