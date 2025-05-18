@@ -1,7 +1,12 @@
 import os
 import json
 
-LOG_DIR = "student_logs"
+# Absolute path to the student_logs folder, relative to this utils.py file
+LOG_DIR = os.path.join(os.path.dirname(__file__), "../student_logs")
+
+# Make sure the directory exists
+if not os.path.exists(LOG_DIR):
+    os.makedirs(LOG_DIR)
 
 def get_log_path(student_name):
     """Returns the file path for a student's progress log."""
