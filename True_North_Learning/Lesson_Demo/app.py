@@ -26,18 +26,20 @@ else:
         st.header(f"👋 Hello, {student_name}!")
         if st.button("🏠 Dashboard"):
             st.session_state.page = "Dashboard"
+            st.rerun()
         if st.button("📚 Explore Lessons"):
             st.session_state.page = "Lessons"
+            st.rerun()
         st.markdown("---")
-if st.sidebar.button("🔁 Restart"):
-    for key in list(st.session_state.keys()):
-        del st.session_state[key]
-        st.rerun()
-
+        if st.button("🔁 Restart"):
+            for key in list(st.session_state.keys()):
+                del st.session_state[key]
+            st.rerun()  # rerun after all keys are cleared
 
     # Route between pages
     if st.session_state.page == "Dashboard":
         show_student_dashboard(student_name)
+
     elif st.session_state.page == "Lessons":
         progress = show_lessons(student_name)
         if progress:
@@ -45,7 +47,8 @@ if st.sidebar.button("🔁 Restart"):
             st.success("✅ Your progress has been saved!")
             if st.button("⬅️ Back to Dashboard"):
                 st.session_state.page = "Dashboard"
-                st.experimental_rerun()
+                st.rerun()
+
 
 
 
