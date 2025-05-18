@@ -9,9 +9,11 @@ if not os.path.exists(LOG_DIR):
     os.makedirs(LOG_DIR)
 
 def get_log_path(student_name):
-    """Returns the file path for a student's progress log."""
     safe_name = student_name.replace(" ", "_").lower()
-    return os.path.join(LOG_DIR, f"{safe_name}_log.json")
+    path = os.path.join(LOG_DIR, f"{safe_name}_log.json")
+    print(f"DEBUG: Log path resolved to: {os.path.abspath(path)}")  # or use st.write if in Streamlit app
+    return path
+
 
 def log_progress(student_name, progress):
     """Appends a new progress entry to the student's log file."""
