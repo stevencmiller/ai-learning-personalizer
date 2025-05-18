@@ -6,7 +6,7 @@ from modules.utils import get_log_path
 
 def load_student_progress(student_name):
     log_file = get_log_path(student_name)
-    st.write(f"📁 Debug: Looking for file at `{log_file}` (absolute: {os.path.abspath(log_file)})")
+    # st.write(f"📁 Debug: Looking for file at `{log_file}` (absolute: {os.path.abspath(log_file)})")
     
 
     if os.path.exists(log_file):
